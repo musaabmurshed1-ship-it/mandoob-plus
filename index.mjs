@@ -10,7 +10,7 @@ import * as A from "./auth.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(here, "..");
-const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".json": "application/json; charset=utf-8", ".ico": "image/x-icon", ".webmanifest": "application/manifest+json" };
+const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".json": "application/json" };
 
 class Reply { constructor(body, status = 200, headers = {}) { this.body = body; this.status = status; this.headers = headers; } }
 
@@ -181,7 +181,10 @@ export function createApp({ dbFile = join(ROOT, "data", "mandoob.db"), secretFil
 // تشغيل مباشر: node server/index.mjs
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const app = createApp({ dbFile: process.env.DB_FILE || undefined });
-  const port = Number(process.env.PORT || 3000);
-  app.server.listen(port, process.env.HOST || "0.0.0.0", () => console.log(`Mandoob+ يعمل على http://localhost:${port}`));
+  // wrapper so callers can use app.listen(port, cb)
+  app.listen = (port, cb) => app.server.listen(port, process.env.HOST || "0.0.0.0", cb);
+  app.listen(process.env.PORT || 3000, () => {
+    console.log("Server running");
+  });
   for (const sig of ["SIGINT", "SIGTERM"]) process.on(sig, () => app.close().then(() => process.exit(0)));
 }
