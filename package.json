@@ -6,8 +6,8 @@
   "description": "Mandoob+ — منصة الشركات والمندوبين المستقلين داخل المدينة",
   "engines": { "node": ">=22.5" },
   "scripts": {
-    "start": "node --no-warnings server/index.mjs",
-    "dev": "node --no-warnings --watch server/index.mjs",
+    "start": "node --no-warnings index.mjs",
+    "dev": "node --no-warnings --watch index.mjs",
     "test": "node --no-warnings --test test/*.test.mjs"
   }
 }
