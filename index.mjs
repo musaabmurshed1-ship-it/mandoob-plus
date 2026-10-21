@@ -9,7 +9,7 @@ import { HttpError } from "./market.mjs";
 import * as A from "./auth.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const ROOT = resolve(here, "..");
+const ROOT = here;
 const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".json": "application/json; charset=utf-8", ".ico": "image/x-icon", ".webmanifest": "application/manifest+json" };
 
 class Reply { constructor(body, status = 200, headers = {}) { this.body = body; this.status = status; this.headers = headers; } }
